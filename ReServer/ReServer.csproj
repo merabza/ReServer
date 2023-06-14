@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <UserSecretsId>ad720008-51f5-43ff-973a-46763eecf98c</UserSecretsId>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApAgentData\LibApAgentData\LibApAgentData.csproj" />
+    <ProjectReference Include="..\..\ParametersManagement\LibParameters\LibParameters.csproj" />
+    <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
+    <ProjectReference Include="..\..\ToolsManagement\LibToolActions\LibToolActions.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\ConfigurationEncrypt\ConfigurationEncrypt.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\SerilogLogger\SerilogLogger.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\SwaggerTools\SwaggerTools.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\TestToolsMini\TestToolsMini.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\WindowsServiceTools\WindowsServiceTools.csproj" />
+  </ItemGroup>
+
+</Project>
