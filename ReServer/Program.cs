@@ -1,14 +1,9 @@
 using System;
 using System.IO;
-using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
-using SerilogLogger;
-using SwaggerTools;
 using SystemToolsShared;
-using TestToolsMini.Endpoints.V1;
 using WebInstallers;
-using WindowsServiceTools;
 
 //პროგრამის ატრიბუტების დაყენება 
 ProgramAttributes.Instance.SetAttribute("AppName", "ReServer");
@@ -23,12 +18,17 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 });
 
 builder.InstallServices(args,
-    typeof(Program),
-    typeof(TestEndpoints),
-    typeof(ConfigurationEncryptInstaller),
-    typeof(SerilogLoggerInstaller),
-    typeof(UseWindowsServiceInstaller),
-    typeof(SwaggerInstaller)
+
+    //WebSystemTools
+    ConfigurationEncrypt.AssemblyReference.Assembly,
+    SerilogLogger.AssemblyReference.Assembly,
+    SwaggerTools.AssemblyReference.Assembly,
+    TestToolsApi.AssemblyReference.Assembly,
+    WindowsServiceTools.AssemblyReference.Assembly,
+    
+    //ReServer
+    ReServer.AssemblyReference.Assembly
+
 );
 
 var app = builder.Build();
