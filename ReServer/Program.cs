@@ -25,10 +25,9 @@ builder.InstallServices(args,
     SwaggerTools.AssemblyReference.Assembly,
     TestToolsApi.AssemblyReference.Assembly,
     WindowsServiceTools.AssemblyReference.Assembly,
-    
+
     //ReServer
     ReServer.AssemblyReference.Assembly
-
 );
 
 var app = builder.Build();
