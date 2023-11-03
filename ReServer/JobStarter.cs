@@ -33,7 +33,7 @@ public sealed class JobStarter
 
         //მოვძებნოთ თუ არსებობს ისეთი დაგეგმვა,
         //რომელიც ითვალისწინებს სამუშაოს გაშვებას პროგრამის გაშვებისთანავე
-        //თუ ასეთი დაგეგმვა მოიძებნა გაეშვას შესაბამისი სამუშაო ცალკე თრიდში
+        //თუ ასეთი დაგეგმვა მოიძებნა გაეშვას შესაბამისი სამუშაო ცალკე ნაკადში
         FindRunStartUpJobs(false);
     }
 
@@ -102,10 +102,7 @@ public sealed class JobStarter
         {
             var nextDateTime = RecountNextStartTime(kvp);
 
-            if (!_nextRunDatesByScheduleNames.ContainsKey(kvp.Key))
-                _nextRunDatesByScheduleNames.Add(kvp.Key, nextDateTime);
-            else
-                _nextRunDatesByScheduleNames[kvp.Key] = nextDateTime;
+            _nextRunDatesByScheduleNames[kvp.Key] = nextDateTime;
 
             _logger.LogInformation("NextStartTime for Job Schedule={Key} - {nextDateTime}", kvp.Key, nextDateTime);
             if (nextDateTime < minNexStartTime)
@@ -189,6 +186,9 @@ public sealed class JobStarter
         //ითვლება რომ ახალ სამუშაოს არ აინტერესებს ძველი დამთავრდა თუ არა
         //(თუ საჭირო გახდა ამის მართვა მერეც შეგვიძლია დავამატოთ)
 
-        if (_nextJobDateTime <= DateTime.Now) FindRunStartUpJobs(true);
+        if (_nextJobDateTime <= DateTime.Now)
+            FindRunStartUpJobs(true);
+        else
+            _logger.LogInformation("next Job Date Time is: {_nextJobDateTime}, ", _nextJobDateTime);
     }
 }

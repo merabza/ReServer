@@ -60,8 +60,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     {
         var count = Interlocked.Increment(ref _executionCount);
 
-        _logger.LogInformation(
-            "Timed Hosted Service is working. Count: {Count}", count);
+        _logger.LogInformation("Timed Hosted Service is working. Count: {Count}, ", count);
 
         if (_jobStarter == null)
             StartJobs();
