@@ -19,6 +19,7 @@ public sealed class JobStarter
     private DateTime _nextJobDateTime;
 
 
+    // ReSharper disable once ConvertToPrimaryConstructor
     public JobStarter(ILogger logger, IProcesses processes, string apAgentParametersFileName, string encKey)
     {
         _logger = logger;
