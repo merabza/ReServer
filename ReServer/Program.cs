@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
 using SystemToolsShared;
@@ -20,7 +21,7 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 builder.InstallServices(args,
 
     //WebSystemTools
-    ConfigurationEncrypt.AssemblyReference.Assembly,
+    AssemblyReference.Assembly,
     SerilogLogger.AssemblyReference.Assembly,
     SwaggerTools.AssemblyReference.Assembly,
     TestToolsApi.AssemblyReference.Assembly,
