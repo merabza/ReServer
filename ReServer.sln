@@ -77,6 +77,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabasesManagement", "..\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAgentDatabasesApiContracts", "..\WebAgentContracts\WebAgentDatabasesApiContracts\WebAgentDatabasesApiContracts.csproj", "{667C9F1C-6408-4EA4-A07D-2C26280E46A4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClientsManagement", "..\ToolsManagement\ApiClientsManagement\ApiClientsManagement.csproj", "{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,10 @@ Global
 		{667C9F1C-6408-4EA4-A07D-2C26280E46A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{667C9F1C-6408-4EA4-A07D-2C26280E46A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{667C9F1C-6408-4EA4-A07D-2C26280E46A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,6 +238,7 @@ Global
 		{D61D7E94-EA9E-4F25-9DE8-F9FD60E3D049} = {DCA36B98-E566-4DCC-AD83-C577C07918DC}
 		{839FFBFC-9C3A-4A42-AF30-397E4ECA5DB3} = {79D05E55-9C16-42D9-A73B-C0DD9A49BAE2}
 		{667C9F1C-6408-4EA4-A07D-2C26280E46A4} = {DCA36B98-E566-4DCC-AD83-C577C07918DC}
+		{AD999CBB-CCB8-403D-97CE-B58DA8DB7ABF} = {79D05E55-9C16-42D9-A73B-C0DD9A49BAE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FE1E259-F150-4CB5-A963-8A643C1D67A2}
