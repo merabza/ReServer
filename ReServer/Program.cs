@@ -31,7 +31,8 @@ builder.InstallServices(args,
     ReServer.AssemblyReference.Assembly
 );
 
-var app = builder.Build();
+// ReSharper disable once using
+using var app = builder.Build();
 
 app.UseServices();
 

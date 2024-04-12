@@ -15,7 +15,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     private static readonly string AppAgentKey =
         "8959D94B-596E-48C1-A644-29667AEE2250" + Environment.MachineName.Capitalize();
 
-    private readonly AppSettings _appSettings;
+    private readonly AppSettings? _appSettings;
     private readonly ILogger<TimedHostedService> _logger;
     private readonly IProcesses _processes;
 
@@ -35,13 +35,13 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     public void Dispose()
     {
         _timer?.Dispose();
-        GC.SuppressFinalize(this);
     }
 
     public Task StartAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Timed Hosted Service running.");
 
+        // ReSharper disable once DisposableConstructor
         _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
 
         return Task.CompletedTask;
@@ -72,7 +72,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     {
         _logger.LogInformation("Start Jobs");
 
-        if (string.IsNullOrWhiteSpace(_appSettings.InstructionsFileName))
+        if (string.IsNullOrWhiteSpace(_appSettings?.InstructionsFileName))
         {
             _logger.LogError("InstructionsFileName does not specified in appSettings");
             return;
