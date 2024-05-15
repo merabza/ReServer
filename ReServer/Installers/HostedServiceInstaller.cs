@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using LibToolActions.BackgroundTasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ public sealed class HostedServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args)
+    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
     {
         Console.WriteLine("HostedServiceInstaller.InstallServices Started");
 

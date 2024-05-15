@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <UserSecretsId>ad720008-51f5-43ff-973a-46763eecf98c</UserSecretsId>
+    <UserSecretsId> </UserSecretsId>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\ParametersManagement\LibParameters\LibParameters.csproj" />
     <ProjectReference Include="..\..\SystemTools\SystemToolsShared\SystemToolsShared.csproj" />
     <ProjectReference Include="..\..\ToolsManagement\LibToolActions\LibToolActions.csproj" />
+    <ProjectReference Include="..\..\WebSystemTools\ApiExceptionHandler\ApiExceptionHandler.csproj" />
     <ProjectReference Include="..\..\WebSystemTools\ConfigurationEncrypt\ConfigurationEncrypt.csproj" />
     <ProjectReference Include="..\..\WebSystemTools\SerilogLogger\SerilogLogger.csproj" />
     <ProjectReference Include="..\..\WebSystemTools\SwaggerTools\SwaggerTools.csproj" />

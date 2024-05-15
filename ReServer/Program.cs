@@ -1,44 +1,56 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
-using SystemToolsShared;
+using SwaggerTools;
 using WebInstallers;
+using AssemblyReference = ApiExceptionHandler.AssemblyReference;
 
-//პროგრამის ატრიბუტების დაყენება 
-ProgramAttributes.Instance.SetAttribute("AppName", "ReServer");
-ProgramAttributes.Instance.SetAttribute("AppKey", "CF39BBE3-531B-417E-AC20-3605313D0F94");
-ProgramAttributes.Instance.SetAttribute("VersionCount", 1);
-ProgramAttributes.Instance.SetAttribute("UseSwaggerWithJWTBearer", false);
-
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    ContentRootPath = AppContext.BaseDirectory,
-    Args = args
-});
-
-builder.InstallServices(args,
-
-    //WebSystemTools
-    AssemblyReference.Assembly,
-    SerilogLogger.AssemblyReference.Assembly,
-    SwaggerTools.AssemblyReference.Assembly,
-    TestToolsApi.AssemblyReference.Assembly,
-    WindowsServiceTools.AssemblyReference.Assembly,
-
-    //ReServer
-    ReServer.AssemblyReference.Assembly
-);
-
-// ReSharper disable once using
-using var app = builder.Build();
-
-app.UseServices();
-
+////პროგრამის ატრიბუტების დაყენება 
+//ProgramAttributes.Instance.SetAttribute("AppName", "ReServer");
+//ProgramAttributes.Instance.SetAttribute("AppKey", "CF39BBE3-531B-417E-AC20-3605313D0F94");
+//ProgramAttributes.Instance.SetAttribute("VersionCount", 1);
+//ProgramAttributes.Instance.SetAttribute("UseSwaggerWithJWTBearer", false);
 
 try
 {
+    var parameters = new Dictionary<string, string>
+    {
+        //{ SignalRMessagesInstaller.SignalRReCounterKey, string.Empty },//Allow SignalRReCounter
+        { ConfigurationEncryptInstaller.AppKeyKey, "CF39BBE3-531B-417E-AC20-3605313D0F94" },
+        { SwaggerInstaller.AppNameKey, "ReServer" },
+        { SwaggerInstaller.VersionCountKey, 1.ToString() }
+        //{ SwaggerInstaller.UseSwaggerWithJwtBearerKey, string.Empty },//Allow Swagger
+    };
+
+    var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+    {
+        ContentRootPath = AppContext.BaseDirectory,
+        Args = args
+    });
+
+    builder.InstallServices(args, parameters,
+
+        //WebSystemTools
+        AssemblyReference.Assembly,
+        ConfigurationEncrypt.AssemblyReference.Assembly,
+        SerilogLogger.AssemblyReference.Assembly,
+        SwaggerTools.AssemblyReference.Assembly,
+        TestToolsApi.AssemblyReference.Assembly,
+        WindowsServiceTools.AssemblyReference.Assembly,
+
+        //ReServer
+        ReServer.AssemblyReference.Assembly
+    );
+
+    // ReSharper disable once using
+    using var app = builder.Build();
+
+    app.UseServices();
+
+
     Log.Information("Directory.GetCurrentDirectory() = {0}", Directory.GetCurrentDirectory());
     Log.Information("AppContext.BaseDirectory = {0}", AppContext.BaseDirectory);
 
