@@ -75,6 +75,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRClient", "..\SystemT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRContracts", "..\SystemTools\SignalRContracts\SignalRContracts.csproj", "{A0A39099-6A93-4689-9401-2B3F1BC93A74}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpClientInstaller", "..\WebSystemTools\HttpClientInstaller\HttpClientInstaller.csproj", "{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,6 +199,10 @@ Global
 		{A0A39099-6A93-4689-9401-2B3F1BC93A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A39099-6A93-4689-9401-2B3F1BC93A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A39099-6A93-4689-9401-2B3F1BC93A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,6 +236,7 @@ Global
 		{6AE0A841-C28A-4029-80AB-39EEDCCDAB8C} = {636413E5-1D87-4DA1-9A97-CA8B328853EC}
 		{537E13D5-0EF3-447A-9388-57BD206AB791} = {D07917F4-0393-47A7-BC0C-5C20B60641BF}
 		{A0A39099-6A93-4689-9401-2B3F1BC93A74} = {D07917F4-0393-47A7-BC0C-5C20B60641BF}
+		{B4D9AA0D-31EE-49A4-88A2-CD7D3BE1C6F0} = {636413E5-1D87-4DA1-9A97-CA8B328853EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FE1E259-F150-4CB5-A963-8A643C1D67A2}

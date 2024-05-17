@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using LibToolActions.BackgroundTasks;
@@ -17,16 +18,18 @@ public sealed class TimedHostedService : IHostedService, IDisposable
 
     private readonly AppSettings? _appSettings;
     private readonly ILogger<TimedHostedService> _logger;
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IProcesses _processes;
 
     private int _executionCount;
     private JobStarter? _jobStarter;
     private Timer? _timer;
 
-    public TimedHostedService(ILogger<TimedHostedService> logger, IProcesses processes,
-        IConfiguration configuration)
+    public TimedHostedService(ILogger<TimedHostedService> logger, IHttpClientFactory httpClientFactory,
+        IProcesses processes, IConfiguration configuration)
     {
         _logger = logger;
+        _httpClientFactory = httpClientFactory;
         _processes = processes;
         var projectSettingsSection = configuration.GetSection("AppSettings");
         _appSettings = projectSettingsSection.Get<AppSettings>();
@@ -79,7 +82,8 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         }
 
         //ჯობების ნაწილის გაშვება
-        _jobStarter = new JobStarter(_logger, _processes, _appSettings.InstructionsFileName, AppAgentKey);
+        _jobStarter = new JobStarter(_logger, _httpClientFactory, _processes, _appSettings.InstructionsFileName,
+            AppAgentKey);
         _jobStarter.Run();
     }
 }

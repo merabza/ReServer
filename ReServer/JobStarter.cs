@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using LibApAgentData.Models;
 using LibParameters;
 using LibToolActions.BackgroundTasks;
@@ -13,16 +14,19 @@ public sealed class JobStarter
     private readonly string _apAgentParametersFileName;
 
     private readonly ILogger _logger;
-    private readonly Dictionary<string, DateTime> _nextRunDatesByScheduleNames = new();
+    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly Dictionary<string, DateTime> _nextRunDatesByScheduleNames = [];
     private readonly ParametersLoader<ApAgentParameters> _parLoader;
     private readonly IProcesses _processes;
     private DateTime _nextJobDateTime;
 
 
     // ReSharper disable once ConvertToPrimaryConstructor
-    public JobStarter(ILogger logger, IProcesses processes, string apAgentParametersFileName, string encKey)
+    public JobStarter(ILogger logger, IHttpClientFactory httpClientFactory, IProcesses processes,
+        string apAgentParametersFileName, string encKey)
     {
         _logger = logger;
+        _httpClientFactory = httpClientFactory;
         _processes = processes;
         _apAgentParametersFileName = apAgentParametersFileName;
         _parLoader = new ParametersLoader<ApAgentParameters>(encKey);
@@ -79,7 +83,7 @@ public sealed class JobStarter
             //ეს მინიჭება საჭიროა იმისათვის რომ მერე მოხდეს ახალი დროის დაანგარიშება
             _nextJobDateTime = DateTime.MaxValue;
 
-            parameters.RunAllSteps(_logger, false, kvp.Key, _processes, procLogFilesFolder);
+            parameters.RunAllSteps(_logger, _httpClientFactory, false, kvp.Key, _processes, procLogFilesFolder);
         }
 
         if (_nextJobDateTime == DateTime.MaxValue)
