@@ -12,9 +12,9 @@ namespace ReServer;
 public sealed class JobStarter
 {
     private readonly string _apAgentParametersFileName;
+    private readonly IHttpClientFactory _httpClientFactory;
 
     private readonly ILogger _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly Dictionary<string, DateTime> _nextRunDatesByScheduleNames = [];
     private readonly ParametersLoader<ApAgentParameters> _parLoader;
     private readonly IProcesses _processes;

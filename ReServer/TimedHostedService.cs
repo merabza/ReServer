@@ -17,8 +17,8 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         "8959D94B-596E-48C1-A644-29667AEE2250" + Environment.MachineName.Capitalize();
 
     private readonly AppSettings? _appSettings;
-    private readonly ILogger<TimedHostedService> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ILogger<TimedHostedService> _logger;
     private readonly IProcesses _processes;
 
     private int _executionCount;
