@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ConfigurationEncrypt;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using SwaggerTools;
 using WebInstallers;
@@ -31,7 +32,9 @@ try
         Args = args
     });
 
-    builder.InstallServices(args, parameters,
+    var debugMode = builder.Environment.IsDevelopment();
+
+    builder.InstallServices(debugMode, args, parameters,
 
         //WebSystemTools
         AssemblyReference.Assembly,
@@ -49,7 +52,7 @@ try
     // ReSharper disable once using
     using var app = builder.Build();
 
-    app.UseServices();
+    app.UseServices(debugMode);
 
 
     Log.Information("Directory.GetCurrentDirectory() = {0}", Directory.GetCurrentDirectory());

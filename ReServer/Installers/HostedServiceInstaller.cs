@@ -13,17 +13,19 @@ public sealed class HostedServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public void InstallServices(WebApplicationBuilder builder, string[] args, Dictionary<string, string> parameters)
+    public void InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args, Dictionary<string, string> parameters)
     {
-        Console.WriteLine("HostedServiceInstaller.InstallServices Started");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");
 
         builder.Services.AddSingleton<IProcesses, Processes>();
         builder.Services.AddHostedService<TimedHostedService>();
 
-        Console.WriteLine("HostedServiceInstaller.InstallServices Finished");
+        if (debugMode)
+            Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Finished");
     }
 
-    public void UseServices(WebApplication app)
+    public void UseServices(WebApplication app, bool debugMode)
     {
     }
 }
