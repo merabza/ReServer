@@ -13,7 +13,8 @@ public sealed class HostedServiceInstaller : IInstaller
     public int InstallPriority => 30;
     public int ServiceUsePriority => 30;
 
-    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args, Dictionary<string, string> parameters)
+    public bool InstallServices(WebApplicationBuilder builder, bool debugMode, string[] args,
+        Dictionary<string, string> parameters)
     {
         if (debugMode)
             Console.WriteLine($"{GetType().Name}.{nameof(InstallServices)} Started");

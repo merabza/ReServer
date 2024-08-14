@@ -55,7 +55,7 @@ try
 
     if (!app.UseServices(debugMode))
         return 3;
-    
+
     Log.Information("Directory.GetCurrentDirectory() = {0}", Directory.GetCurrentDirectory());
     Log.Information("AppContext.BaseDirectory = {0}", AppContext.BaseDirectory);
 
