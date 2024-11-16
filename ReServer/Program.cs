@@ -18,7 +18,7 @@ try
 
     //პროგრამის ატრიბუტების დაყენება 
     ProgramAttributes.Instance.AppName = appName;
-    ProgramAttributes.Instance.SetAttribute(nameof(appAgentAppKey), appAgentAppKey);
+    ProgramAttributes.Instance.AppKey = appAgentAppKey;
     
 
     var parameters = new Dictionary<string, string>
