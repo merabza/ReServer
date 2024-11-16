@@ -18,9 +18,9 @@ try
 
     //პროგრამის ატრიბუტების დაყენება 
     ProgramAttributes.Instance.AppName = appName;
-    ProgramAttributes.Instance.AppKey = appAgentAppKey;
+    ProgramAttributes.Instance.AppKey = appKey;
+    ProgramAttributes.Instance.SetAttribute(nameof(appAgentAppKey), appAgentAppKey);
     
-
     var parameters = new Dictionary<string, string>
     {
         //{ SignalRMessagesInstaller.SignalRReCounterKey, string.Empty },//Allow SignalRReCounter
