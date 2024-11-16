@@ -6,22 +6,26 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using SwaggerTools;
+using SystemToolsShared;
 using WebInstallers;
-using AssemblyReference = ApiExceptionHandler.AssemblyReference;
-
-////პროგრამის ატრიბუტების დაყენება 
-//ProgramAttributes.Instance.SetAttribute("AppName", "ReServer");
-//ProgramAttributes.Instance.SetAttribute("AppKey", "CF39BBE3-531B-417E-AC20-3605313D0F94");
-//ProgramAttributes.Instance.SetAttribute("VersionCount", 1);
-//ProgramAttributes.Instance.SetAttribute("UseSwaggerWithJWTBearer", false);
 
 try
 {
+    
+    const string appName = "ReServer";
+    const string appKey = "CF39BBE3-531B-417E-AC20-3605313D0F94";
+    const string appAgentAppKey = "8959D94B-596E-48C1-A644-29667AEE2250";
+
+    //პროგრამის ატრიბუტების დაყენება 
+    ProgramAttributes.Instance.AppName = appName;
+    ProgramAttributes.Instance.SetAttribute(nameof(appAgentAppKey), appAgentAppKey);
+    
+
     var parameters = new Dictionary<string, string>
     {
         //{ SignalRMessagesInstaller.SignalRReCounterKey, string.Empty },//Allow SignalRReCounter
-        { ConfigurationEncryptInstaller.AppKeyKey, "CF39BBE3-531B-417E-AC20-3605313D0F94" },
-        { SwaggerInstaller.AppNameKey, "ReServer" },
+        { ConfigurationEncryptInstaller.AppKeyKey, appKey },
+        { SwaggerInstaller.AppNameKey, appName },
         { SwaggerInstaller.VersionCountKey, 1.ToString() }
         //{ SwaggerInstaller.UseSwaggerWithJwtBearerKey, string.Empty },//Allow Swagger
     };
@@ -37,7 +41,7 @@ try
     if (!builder.InstallServices(debugMode, args, parameters,
 
             //WebSystemTools
-            AssemblyReference.Assembly,
+            ApiExceptionHandler.AssemblyReference.Assembly,
             ConfigurationEncrypt.AssemblyReference.Assembly,
             HttpClientInstaller.AssemblyReference.Assembly,
             SerilogLogger.AssemblyReference.Assembly,

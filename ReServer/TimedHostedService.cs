@@ -13,8 +13,8 @@ namespace ReServer;
 
 public sealed class TimedHostedService : IHostedService, IDisposable
 {
-    private static readonly string AppAgentKey =
-        "8959D94B-596E-48C1-A644-29667AEE2250" + Environment.MachineName.Capitalize();
+    private static readonly string AppAgentKey = ProgramAttributes.Instance.GetAttribute<string>("appAgentAppKey") +
+                                                 Environment.MachineName.Capitalize();
 
     private readonly AppSettings? _appSettings;
     private readonly IHttpClientFactory _httpClientFactory;
@@ -31,7 +31,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _processes = processes;
-        var projectSettingsSection = configuration.GetSection("AppSettings");
+        var projectSettingsSection = configuration.GetSection(nameof(AppSettings));
         _appSettings = projectSettingsSection.Get<AppSettings>();
     }
 
