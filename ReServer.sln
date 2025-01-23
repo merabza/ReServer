@@ -83,6 +83,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiContracts", "..\SystemTo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringMessagesApiContracts", "..\SystemTools\StringMessagesApiContracts\StringMessagesApiContracts.csproj", "{9E1609CD-240E-425D-AFFE-28C37B5EF2C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OleDbTools", "..\DatabaseTools\OleDbTools\OleDbTools.csproj", "{E688605E-6F58-438A-9EF1-406AAF951889}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +219,10 @@ Global
 		{9E1609CD-240E-425D-AFFE-28C37B5EF2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E1609CD-240E-425D-AFFE-28C37B5EF2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E1609CD-240E-425D-AFFE-28C37B5EF2C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E688605E-6F58-438A-9EF1-406AAF951889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E688605E-6F58-438A-9EF1-406AAF951889}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E688605E-6F58-438A-9EF1-406AAF951889}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E688605E-6F58-438A-9EF1-406AAF951889}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,6 +259,7 @@ Global
 		{8464299F-22FF-442D-83AB-EA589373D535} = {D07917F4-0393-47A7-BC0C-5C20B60641BF}
 		{395F9998-CEC8-4B77-93AA-0EEF6A4577EC} = {D07917F4-0393-47A7-BC0C-5C20B60641BF}
 		{9E1609CD-240E-425D-AFFE-28C37B5EF2C5} = {D07917F4-0393-47A7-BC0C-5C20B60641BF}
+		{E688605E-6F58-438A-9EF1-406AAF951889} = {B7A0D2C4-0E06-4E5D-979F-D5F32FD5F678}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3FE1E259-F150-4CB5-A963-8A643C1D67A2}
