@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using LibApAgentData;
 using LibToolActions.BackgroundTasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -13,8 +14,7 @@ namespace ReServer;
 
 public sealed class TimedHostedService : IHostedService, IDisposable
 {
-    private static readonly string AppAgentKey = ProgramAttributes.Instance.GetAttribute<string>("appAgentAppKey") +
-                                                 Environment.MachineName.Capitalize();
+    private static readonly string AppAgentKey = StringExtension.AppAgentAppKey + Environment.MachineName.Capitalize();
 
     private readonly AppSettings? _appSettings;
     private readonly IHttpClientFactory _httpClientFactory;

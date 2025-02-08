@@ -14,12 +14,10 @@ try
     
     const string appName = "ReServer";
     const string appKey = "CF39BBE3-531B-417E-AC20-3605313D0F94";
-    const string appAgentAppKey = "8959D94B-596E-48C1-A644-29667AEE2250";
 
     //პროგრამის ატრიბუტების დაყენება 
     ProgramAttributes.Instance.AppName = appName;
     ProgramAttributes.Instance.AppKey = appKey;
-    ProgramAttributes.Instance.SetAttribute(nameof(appAgentAppKey), appAgentAppKey);
     
     var parameters = new Dictionary<string, string>
     {
