@@ -20,7 +20,6 @@ public sealed class JobStarter
     private readonly IProcesses _processes;
     private DateTime _nextJobDateTime;
 
-
     // ReSharper disable once ConvertToPrimaryConstructor
     public JobStarter(ILogger logger, IHttpClientFactory httpClientFactory, IProcesses processes,
         string apAgentParametersFileName, string encKey)
@@ -49,8 +48,7 @@ public sealed class JobStarter
         if (parameters == null)
             return;
 
-        var jobSchedulesDict =
-            parameters.GetStartUpJobSchedules(byTime, _nextRunDatesByScheduleNames);
+        var jobSchedulesDict = parameters.GetStartUpJobSchedules(byTime, _nextRunDatesByScheduleNames);
 
         //LocalPathCounter procLogFilesPathCounter =
         //    LocalPathCounterFabric.CreateProcLogFilesPathCounter(parameters, _apAgentParametersFileName);
@@ -71,7 +69,6 @@ public sealed class JobStarter
         }
 
         //string procLogFilesFolder = procLogFilesPathCounter.Count(parameters.ProcLogFilesFolder);
-
 
         foreach (var kvp in jobSchedulesDict)
         {
@@ -118,7 +115,6 @@ public sealed class JobStarter
         _logger.LogInformation("Minimum NextStartTime for all jobs is {minNexStartTime}", minNexStartTime);
     }
 
-
     private static DateTime RecountNextStartTime(KeyValuePair<string, JobSchedule> kvp)
     {
         var jobSchedule = kvp.Value;
@@ -126,11 +122,9 @@ public sealed class JobStarter
         //TimeSpan toRet = TimeSpan.MaxValue;
         //0;AtStart;1;Once;2;Daily;3;weekly;4;monthly;5;WhenCPUIdle
 
-        var firstDateTime = jobSchedule.DurationStartDate.Add(new TimeSpan(
-            jobSchedule.ActiveStartDayTime.Hours,
+        var firstDateTime = jobSchedule.DurationStartDate.Add(new TimeSpan(jobSchedule.ActiveStartDayTime.Hours,
             jobSchedule.ActiveStartDayTime.Minutes, jobSchedule.ActiveStartDayTime.Seconds));
         var nowDateTime = DateTime.Now;
-
 
         switch (jobSchedule.ScheduleType)
         {
@@ -140,7 +134,6 @@ public sealed class JobStarter
 
                 var toDayStart = DateTime.Today.Add(jobSchedule.ActiveStartDayTime);
                 var toDayEnd = DateTime.Today.Add(jobSchedule.ActiveEndDayTime);
-
 
                 var daysToAdd = (int)(nowDateTime.Date - firstDateTime.Date).TotalDays / jobSchedule.FreqInterval *
                                 jobSchedule.FreqInterval;
@@ -155,7 +148,6 @@ public sealed class JobStarter
                         ? nextCandidateStartDateTime
                         : DateTime.MaxValue;
 
-
                 var atStartMinutes = toDayStart.Hour * 60 + toDayStart.Minute;
                 var minuteInterval = jobSchedule.FreqSubDayInterval;
                 if (jobSchedule.FreqSubDayType == EEveryMeasure.Hour)
@@ -169,8 +161,7 @@ public sealed class JobStarter
                 if (candidateDateTime < nowDateTime)
                     nextCandidateDateTime = candidateDateTime.AddMinutes(minuteInterval);
 
-                if (nextCandidateDateTime < toDayEnd &&
-                    nextCandidateDateTime.Date <= jobSchedule.DurationEndDate.Date)
+                if (nextCandidateDateTime < toDayEnd && nextCandidateDateTime.Date <= jobSchedule.DurationEndDate.Date)
                     return nextCandidateDateTime;
 
                 return nextCandidateStartDateTime.Date <= jobSchedule.DurationEndDate.Date
@@ -180,7 +171,6 @@ public sealed class JobStarter
 
         return DateTime.MaxValue;
     }
-
 
     public void DoTimerEventAnswer()
     {

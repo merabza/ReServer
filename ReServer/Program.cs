@@ -8,17 +8,17 @@ using Serilog;
 using SwaggerTools;
 using SystemToolsShared;
 using WebInstallers;
+using AssemblyReference = ApiExceptionHandler.AssemblyReference;
 
 try
 {
-    
     const string appName = "ReServer";
     const string appKey = "CF39BBE3-531B-417E-AC20-3605313D0F94";
 
     //პროგრამის ატრიბუტების დაყენება 
     ProgramAttributes.Instance.AppName = appName;
     ProgramAttributes.Instance.AppKey = appKey;
-    
+
     var parameters = new Dictionary<string, string>
     {
         //{ SignalRMessagesInstaller.SignalRReCounterKey, string.Empty },//Allow SignalRReCounter
@@ -30,8 +30,7 @@ try
 
     var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     {
-        ContentRootPath = AppContext.BaseDirectory,
-        Args = args
+        ContentRootPath = AppContext.BaseDirectory, Args = args
     });
 
     var debugMode = builder.Environment.IsDevelopment();
@@ -39,17 +38,13 @@ try
     if (!builder.InstallServices(debugMode, args, parameters,
 
             //WebSystemTools
-            ApiExceptionHandler.AssemblyReference.Assembly,
-            ConfigurationEncrypt.AssemblyReference.Assembly,
-            HttpClientInstaller.AssemblyReference.Assembly,
-            SerilogLogger.AssemblyReference.Assembly,
-            SwaggerTools.AssemblyReference.Assembly,
-            TestToolsApi.AssemblyReference.Assembly,
+            AssemblyReference.Assembly, ConfigurationEncrypt.AssemblyReference.Assembly,
+            HttpClientInstaller.AssemblyReference.Assembly, SerilogLogger.AssemblyReference.Assembly,
+            SwaggerTools.AssemblyReference.Assembly, TestToolsApi.AssemblyReference.Assembly,
             WindowsServiceTools.AssemblyReference.Assembly,
 
             //ReServer
-            ReServer.AssemblyReference.Assembly
-        ))
+            ReServer.AssemblyReference.Assembly))
         return 2;
 
     // ReSharper disable once using
