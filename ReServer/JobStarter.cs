@@ -50,9 +50,6 @@ public sealed class JobStarter
 
         var jobSchedulesDict = parameters.GetStartUpJobSchedules(byTime, _nextRunDatesByScheduleNames);
 
-        //LocalPathCounter procLogFilesPathCounter =
-        //    LocalPathCounterFabric.CreateProcLogFilesPathCounter(parameters, _apAgentParametersFileName);
-
         var procLogFilesFolder = parameters.CountLocalPath(parameters.ProcLogFilesFolder,
             _apAgentParametersFileName, "ProcLogFiles");
 
@@ -68,15 +65,8 @@ public sealed class JobStarter
             return;
         }
 
-        //string procLogFilesFolder = procLogFilesPathCounter.Count(parameters.ProcLogFilesFolder);
-
         foreach (var kvp in jobSchedulesDict)
         {
-            //if (parameters.JobSchedules == null || !parameters.JobSchedules.ContainsKey(scheduleName))
-            //{
-            //  _logger.LogError($"Schedules with name {jobSchedule.JobStepNames} not found");
-            //}
-
             //ეს მინიჭება საჭიროა იმისათვის რომ მერე მოხდეს ახალი დროის დაანგარიშება
             _nextJobDateTime = DateTime.MaxValue;
 
