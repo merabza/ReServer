@@ -1,0 +1,49 @@
+<Solution>
+  <Folder Name="/ApAgentData/">
+    <Project Path="../ApAgentData/LibApAgentData/LibApAgentData.csproj" />
+  </Folder>
+  <Folder Name="/ConnectionTools/">
+    <Project Path="../ConnectionTools/ConnectTools/ConnectTools.csproj" />
+    <Project Path="../ConnectionTools/CToolsFactory/CToolsFactory.csproj" />
+    <Project Path="../ConnectionTools/FTPTools/FTPTools.csproj" />
+  </Folder>
+  <Folder Name="/DatabaseTools/">
+    <Project Path="../DatabaseTools/DbTools/DbTools.csproj" />
+    <Project Path="../DatabaseTools/DbToolsFactory/DbToolsFactory.csproj" />
+    <Project Path="../DatabaseTools/OleDbTools/OleDbTools.csproj" />
+    <Project Path="../DatabaseTools/SqLiteDbTools/SqLiteDbTools.csproj" />
+    <Project Path="../DatabaseTools/SqlServerDbTools/SqlServerDbTools.csproj" />
+  </Folder>
+  <Folder Name="/ParametersManagement/">
+    <Project Path="../ParametersManagement/LibApiClientParameters/LibApiClientParameters.csproj" />
+    <Project Path="../ParametersManagement/LibDatabaseParameters/LibDatabaseParameters.csproj" />
+    <Project Path="../ParametersManagement/LibFileParameters/LibFileParameters.csproj" />
+    <Project Path="../ParametersManagement/LibParameters/LibParameters.csproj" />
+  </Folder>
+  <Folder Name="/SystemTools/">
+    <Project Path="../SystemTools/ApiContracts/ApiContracts.csproj" />
+    <Project Path="../SystemTools/StringMessagesApiContracts/StringMessagesApiContracts.csproj" />
+    <Project Path="../SystemTools/SystemToolsShared/SystemToolsShared.csproj" />
+    <Project Path="../SystemTools/TestApiContracts/TestApiContracts.csproj" />
+  </Folder>
+  <Folder Name="/ToolsManagement/">
+    <Project Path="../ToolsManagement/ApiClientsManagement/ApiClientsManagement.csproj" />
+    <Project Path="../ToolsManagement/CompressionManagement/CompressionManagement.csproj" />
+    <Project Path="../ToolsManagement/DatabasesManagement/DatabasesManagement.csproj" />
+    <Project Path="../ToolsManagement/FileManagersMain/FileManagersMain.csproj" />
+    <Project Path="../ToolsManagement/LibToolActions/LibToolActions.csproj" />
+  </Folder>
+  <Folder Name="/WebAgentContracts/">
+    <Project Path="../WebAgentContracts/WebAgentDatabasesApiContracts/WebAgentDatabasesApiContracts.csproj" />
+  </Folder>
+  <Folder Name="/WebSystemTools/">
+    <Project Path="../WebSystemTools/ApiExceptionHandler/ApiExceptionHandler.csproj" />
+    <Project Path="../WebSystemTools/ConfigurationEncrypt/ConfigurationEncrypt.csproj" />
+    <Project Path="../WebSystemTools/SerilogLogger/SerilogLogger.csproj" />
+    <Project Path="../WebSystemTools/SwaggerTools/SwaggerTools.csproj" />
+    <Project Path="../WebSystemTools/TestToolsApi/TestToolsApi.csproj" />
+    <Project Path="../WebSystemTools/TestToolsData/TestToolsData.csproj" />
+    <Project Path="../WebSystemTools/WindowsServiceTools/WindowsServiceTools.csproj" />
+  </Folder>
+  <Project Path="ReServer/ReServer.csproj" />
+</Solution>
