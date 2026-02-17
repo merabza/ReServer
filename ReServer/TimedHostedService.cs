@@ -2,13 +2,13 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using LibApAgentData;
-using LibToolActions.BackgroundTasks;
+using ApAgentData.LibApAgentData;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ReServer.Models;
-using SystemToolsShared;
+using SystemTools.SystemToolsShared;
+using ToolsManagement.LibToolActions.BackgroundTasks;
 
 namespace ReServer;
 
@@ -31,7 +31,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _processes = processes;
-        var projectSettingsSection = configuration.GetSection(nameof(AppSettings));
+        IConfigurationSection projectSettingsSection = configuration.GetSection(nameof(AppSettings));
         _appSettings = projectSettingsSection.Get<AppSettings>();
     }
 
@@ -40,7 +40,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         _timer?.Dispose();
     }
 
-    public Task StartAsync(CancellationToken stoppingToken)
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Timed Hosted Service running.");
 
@@ -50,7 +50,7 @@ public sealed class TimedHostedService : IHostedService, IDisposable
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken stoppingToken)
+    public Task StopAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Timed Hosted Service is stopping.");
 
@@ -61,14 +61,21 @@ public sealed class TimedHostedService : IHostedService, IDisposable
 
     private void DoWork(object? state)
     {
-        var count = Interlocked.Increment(ref _executionCount);
+        int count = Interlocked.Increment(ref _executionCount);
 
-        _logger.LogInformation("Timed Hosted Service is working. Count: {Count}, ", count);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Timed Hosted Service is working. Count: {Count}, ", count);
+        }
 
-        if (_jobStarter == null)
+        if (_jobStarter is null)
+        {
             StartJobs();
+        }
         else
-            _jobStarter?.DoTimerEventAnswer();
+        {
+            _jobStarter.DoTimerEventAnswer();
+        }
     }
 
     private void StartJobs()

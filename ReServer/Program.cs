@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Reflection;
+using ApiExceptionHandler.DependencyInjection;
 using ConfigurationEncrypt;
 using Figgle.Fonts;
 using Microsoft.AspNetCore.Builder;
@@ -6,9 +10,8 @@ using Microsoft.Extensions.Hosting;
 using ReServer.DependencyInjection;
 using Serilog;
 using SerilogLogger;
-using System;
-using System.IO;
-using System.Reflection;
+using SwaggerTools.DependencyInjection;
+using TestToolsApi.DependencyInjection;
 using WindowsServiceTools;
 
 try
@@ -16,36 +19,44 @@ try
     Console.WriteLine("Loading...");
 
     const string appName = "ReServer";
+    const string appKey = "CF39BBE3-531B-417E-AC20-3605313D0F94";
+    const int versionCount = 1;
 
-    var header = $"{appName} {Assembly.GetEntryAssembly()?.GetName().Version}";
+    string header = $"{appName} {Assembly.GetEntryAssembly()?.GetName().Version}";
     Console.WriteLine(FiggleFonts.Standard.Render(header));
 
-    const string appKey = "CF39BBE3-531B-417E-AC20-3605313D0F94";
-
-    var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions
     {
         ContentRootPath = AppContext.BaseDirectory, Args = args
     });
 
-    var debugMode = builder.Environment.IsDevelopment();
+    bool debugMode = builder.Environment.IsDevelopment();
 
-    builder.Host.UseSerilogLogger(builder.Configuration, debugMode);
-    builder.Host.UseWindowsServiceOnWindows(debugMode, args);
+    ILogger logger = builder.Host.UseSerilogLogger(debugMode, builder.Configuration);
+    ILogger? debugLogger = debugMode ? logger : null;
 
-    builder.Configuration.AddConfigurationEncryption(debugMode, appKey);
+    builder.Host.UseWindowsServiceOnWindows(debugLogger, args);
+
+    builder.Configuration.AddConfigurationEncryption(debugLogger, appKey);
 
     // @formatter:off
     builder.Services
+        .AddSwagger(debugLogger, true, versionCount, appName)
+
         .AddHostedServices(debugMode).AddHttpClient();
     // @formatter:on
 
     // ReSharper disable once using
-    using var app = builder.Build();
+    await using WebApplication app = builder.Build();
 
     Log.Information("Directory.GetCurrentDirectory() = {0}", Directory.GetCurrentDirectory());
     Log.Information("AppContext.BaseDirectory = {0}", AppContext.BaseDirectory);
 
-    app.Run();
+    app.UseSwaggerServices(debugLogger, versionCount);
+    app.UseApiExceptionHandler(debugLogger);
+    app.UseTestToolsApiEndpoints(debugLogger);
+
+    await app.RunAsync();
 
     Log.Information("Finish");
     return 0;
@@ -57,5 +68,5 @@ catch (Exception e)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }

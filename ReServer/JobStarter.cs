@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using LibApAgentData.Models;
-using LibParameters;
-using LibToolActions.BackgroundTasks;
+using ApAgentData.LibApAgentData.Models;
 using Microsoft.Extensions.Logging;
-using SystemToolsShared;
+using ParametersManagement.LibParameters;
+using SystemTools.SystemToolsShared;
+using ToolsManagement.LibToolActions.BackgroundTasks;
 
 namespace ReServer;
 
@@ -46,11 +46,14 @@ public sealed class JobStarter
         _parLoader.TryLoadParameters(_apAgentParametersFileName);
         var parameters = (ApAgentParameters?)_parLoader.Par;
         if (parameters == null)
+        {
             return;
+        }
 
-        var jobSchedulesDict = parameters.GetStartUpJobSchedules(byTime, _nextRunDatesByScheduleNames);
+        Dictionary<string, JobSchedule> jobSchedulesDict =
+            parameters.GetStartUpJobSchedules(byTime, _nextRunDatesByScheduleNames);
 
-        var procLogFilesFolder = parameters.CountLocalPath(parameters.ProcLogFilesFolder,
+        string? procLogFilesFolder = parameters.CountLocalPath(parameters.ProcLogFilesFolder,
             _apAgentParametersFileName, "ProcLogFiles");
 
         if (string.IsNullOrWhiteSpace(procLogFilesFolder))
@@ -61,11 +64,16 @@ public sealed class JobStarter
 
         if (!StShared.CreateFolder(procLogFilesFolder, false))
         {
-            _logger.LogInformation("{procLogFilesFolder} does not exists and cannot be created", procLogFilesFolder);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("{ProcLogFilesFolder} does not exists and cannot be created",
+                    procLogFilesFolder);
+            }
+
             return;
         }
 
-        foreach (var kvp in jobSchedulesDict)
+        foreach (KeyValuePair<string, JobSchedule> kvp in jobSchedulesDict)
         {
             //ეს მინიჭება საჭიროა იმისათვის რომ მერე მოხდეს ახალი დროის დაანგარიშება
             _nextJobDateTime = DateTime.MaxValue;
@@ -74,7 +82,9 @@ public sealed class JobStarter
         }
 
         if (_nextJobDateTime == DateTime.MaxValue)
+        {
             CalculateNextStartTime(parameters);
+        }
     }
 
     private void CalculateNextStartTime(ApAgentParameters parameters)
@@ -88,33 +98,42 @@ public sealed class JobStarter
         //ამ პროცესის ჩატარების დროს აგრეთვე უნდა შევინახოთ ყველა დაგეგმვის შესაბამისი შემდეგი გაშვების დრო
         //0;AtStart;1;Once;2;Daily;3;weekly;4;monthly;5;WhenCPUIdle
         //IEnumerable<DsJobs.JobSchedulesRow> startUpJobSchedules = ProcData.Instance.GetNotStartUpJobSchedules();
-        var jobSchedulesDict = parameters.GetNotStartUpJobSchedules();
+        Dictionary<string, JobSchedule> jobSchedulesDict = parameters.GetNotStartUpJobSchedules();
 
-        foreach (var kvp in jobSchedulesDict)
+        foreach (KeyValuePair<string, JobSchedule> kvp in jobSchedulesDict)
         {
-            var nextDateTime = RecountNextStartTime(kvp);
+            DateTime nextDateTime = RecountNextStartTime(kvp);
 
             _nextRunDatesByScheduleNames[kvp.Key] = nextDateTime;
 
-            _logger.LogInformation("NextStartTime for Job Schedule={Key} - {nextDateTime}", kvp.Key, nextDateTime);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("NextStartTime for Job Schedule={Key} - {NextDateTime}", kvp.Key, nextDateTime);
+            }
+
             if (nextDateTime < minNexStartTime)
+            {
                 minNexStartTime = nextDateTime;
+            }
         }
 
         _nextJobDateTime = minNexStartTime;
-        _logger.LogInformation("Minimum NextStartTime for all jobs is {minNexStartTime}", minNexStartTime);
+        if (_logger.IsEnabled(LogLevel.Information))
+        {
+            _logger.LogInformation("Minimum NextStartTime for all jobs is {MinNexStartTime}", minNexStartTime);
+        }
     }
 
     private static DateTime RecountNextStartTime(KeyValuePair<string, JobSchedule> kvp)
     {
-        var jobSchedule = kvp.Value;
+        JobSchedule jobSchedule = kvp.Value;
 
         //TimeSpan toRet = TimeSpan.MaxValue;
         //0;AtStart;1;Once;2;Daily;3;weekly;4;monthly;5;WhenCPUIdle
 
-        var firstDateTime = jobSchedule.DurationStartDate.Add(new TimeSpan(jobSchedule.ActiveStartDayTime.Hours,
+        DateTime firstDateTime = jobSchedule.DurationStartDate.Add(new TimeSpan(jobSchedule.ActiveStartDayTime.Hours,
             jobSchedule.ActiveStartDayTime.Minutes, jobSchedule.ActiveStartDayTime.Seconds));
-        var nowDateTime = DateTime.Now;
+        DateTime nowDateTime = DateTime.Now;
 
         switch (jobSchedule.ScheduleType)
         {
@@ -122,37 +141,47 @@ public sealed class JobStarter
                 return firstDateTime < nowDateTime ? DateTime.MaxValue : firstDateTime;
             case EScheduleType.Daily:
 
-                var toDayStart = DateTime.Today.Add(jobSchedule.ActiveStartDayTime);
-                var toDayEnd = DateTime.Today.Add(jobSchedule.ActiveEndDayTime);
+                DateTime toDayStart = DateTime.Today.Add(jobSchedule.ActiveStartDayTime);
+                DateTime toDayEnd = DateTime.Today.Add(jobSchedule.ActiveEndDayTime);
 
-                var daysToAdd = (int)(nowDateTime.Date - firstDateTime.Date).TotalDays / jobSchedule.FreqInterval *
+                int daysToAdd = (int)(nowDateTime.Date - firstDateTime.Date).TotalDays / jobSchedule.FreqInterval *
                                 jobSchedule.FreqInterval;
-                var candidateStartDateTime = firstDateTime.AddDays(daysToAdd);
-                var nextCandidateStartDateTime = candidateStartDateTime;
+                DateTime candidateStartDateTime = firstDateTime.AddDays(daysToAdd);
+                DateTime nextCandidateStartDateTime = candidateStartDateTime;
                 if (candidateStartDateTime < nowDateTime)
+                {
                     nextCandidateStartDateTime = candidateStartDateTime.AddDays(jobSchedule.FreqInterval);
+                }
 
                 if (jobSchedule.DailyFrequencyType == EDailyFrequency.OccursOnce ||
                     candidateStartDateTime.Date != nowDateTime.Date || toDayEnd < nowDateTime)
+                {
                     return nextCandidateStartDateTime.Date <= jobSchedule.DurationEndDate.Date
                         ? nextCandidateStartDateTime
                         : DateTime.MaxValue;
+                }
 
-                var atStartMinutes = toDayStart.Hour * 60 + toDayStart.Minute;
-                var minuteInterval = jobSchedule.FreqSubDayInterval;
+                int atStartMinutes = toDayStart.Hour * 60 + toDayStart.Minute;
+                int minuteInterval = jobSchedule.FreqSubDayInterval;
                 if (jobSchedule.FreqSubDayType == EEveryMeasure.Hour)
+                {
                     minuteInterval = jobSchedule.FreqSubDayInterval * 60;
+                }
 
                 //toRet = now.Date.AddHours(now.Hour).AddMinutes(now.Minute);
-                var curMinutes = nowDateTime.Hour * 60 + nowDateTime.Minute;
-                var minutesToAdd = (curMinutes - atStartMinutes) / minuteInterval * minuteInterval;
-                var candidateDateTime = toDayStart.AddMinutes(minutesToAdd);
-                var nextCandidateDateTime = candidateStartDateTime;
+                int curMinutes = nowDateTime.Hour * 60 + nowDateTime.Minute;
+                int minutesToAdd = (curMinutes - atStartMinutes) / minuteInterval * minuteInterval;
+                DateTime candidateDateTime = toDayStart.AddMinutes(minutesToAdd);
+                DateTime nextCandidateDateTime = candidateStartDateTime;
                 if (candidateDateTime < nowDateTime)
+                {
                     nextCandidateDateTime = candidateDateTime.AddMinutes(minuteInterval);
+                }
 
                 if (nextCandidateDateTime < toDayEnd && nextCandidateDateTime.Date <= jobSchedule.DurationEndDate.Date)
+                {
                     return nextCandidateDateTime;
+                }
 
                 return nextCandidateStartDateTime.Date <= jobSchedule.DurationEndDate.Date
                     ? nextCandidateStartDateTime
@@ -172,8 +201,15 @@ public sealed class JobStarter
         //(თუ საჭირო გახდა ამის მართვა მერეც შეგვიძლია დავამატოთ)
 
         if (_nextJobDateTime <= DateTime.Now)
+        {
             FindRunStartUpJobs(true);
+        }
         else
-            _logger.LogInformation("next Job Date Time is: {_nextJobDateTime}, ", _nextJobDateTime);
+        {
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("next Job Date Time is: {_nextJobDateTime}, ", _nextJobDateTime);
+            }
+        }
     }
 }
