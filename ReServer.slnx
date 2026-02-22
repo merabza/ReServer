@@ -42,13 +42,13 @@
     <Project Path="../WebAgentContracts/WebAgentContracts.WebAgentDatabasesApiContracts/WebAgentContracts.WebAgentDatabasesApiContracts.csproj" />
   </Folder>
   <Folder Name="/WebSystemTools/">
-    <Project Path="../WebSystemTools/ApiExceptionHandler/ApiExceptionHandler.csproj" />
-    <Project Path="../WebSystemTools/ConfigurationEncrypt/ConfigurationEncrypt.csproj" />
-    <Project Path="../WebSystemTools/SerilogLogger/SerilogLogger.csproj" />
-    <Project Path="../WebSystemTools/SwaggerTools/SwaggerTools.csproj" />
-    <Project Path="../WebSystemTools/TestToolsApi/TestToolsApi.csproj" />
-    <Project Path="../WebSystemTools/TestToolsData/TestToolsData.csproj" />
-    <Project Path="../WebSystemTools/WindowsServiceTools/WindowsServiceTools.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.ApiExceptionHandler/WebSystemTools.ApiExceptionHandler.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.ConfigurationEncrypt/WebSystemTools.ConfigurationEncrypt.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.SerilogLogger/WebSystemTools.SerilogLogger.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.SwaggerTools/WebSystemTools.SwaggerTools.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.TestToolsApi/WebSystemTools.TestToolsApi.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.TestToolsData/WebSystemTools.TestToolsData.csproj" />
+    <Project Path="../WebSystemTools/WebSystemTools.WindowsServiceTools/WebSystemTools.WindowsServiceTools.csproj" />
   </Folder>
   <Project Path="ReServer/ReServer.csproj" />
 </Solution>

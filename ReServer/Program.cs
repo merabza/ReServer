@@ -1,18 +1,18 @@
 using System;
 using System.IO;
 using System.Reflection;
-using ApiExceptionHandler.DependencyInjection;
-using ConfigurationEncrypt;
 using Figgle.Fonts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReServer.DependencyInjection;
 using Serilog;
-using SerilogLogger;
-using SwaggerTools.DependencyInjection;
-using TestToolsApi.DependencyInjection;
-using WindowsServiceTools;
+using WebSystemTools.ApiExceptionHandler.DependencyInjection;
+using WebSystemTools.ConfigurationEncrypt;
+using WebSystemTools.SerilogLogger;
+using WebSystemTools.SwaggerTools.DependencyInjection;
+using WebSystemTools.TestToolsApi.DependencyInjection;
+using WebSystemTools.WindowsServiceTools;
 
 try
 {
@@ -52,7 +52,7 @@ try
     Log.Information("Directory.GetCurrentDirectory() = {0}", Directory.GetCurrentDirectory());
     Log.Information("AppContext.BaseDirectory = {0}", AppContext.BaseDirectory);
 
-    app.UseSwaggerServices(debugLogger, versionCount);
+    app.UseSwaggerServices(debugLogger);
     app.UseApiExceptionHandler(debugLogger);
     app.UseTestToolsApiEndpoints(debugLogger);
 
