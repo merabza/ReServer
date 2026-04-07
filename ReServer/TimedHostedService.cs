@@ -7,20 +7,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ReServer.Models;
+using SystemTools.BackgroundTasks;
 using SystemTools.SystemToolsShared;
-using ToolsManagement.LibToolActions.BackgroundTasks;
 
 namespace ReServer;
 
 public sealed class TimedHostedService : IHostedService, IDisposable
 {
     private static readonly string AppAgentKey = StringExtension.AppAgentAppKey + Environment.MachineName.Capitalize();
+    private readonly IHostApplicationLifetime _appLifetime;
 
     private readonly AppSettings? _appSettings;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<TimedHostedService> _logger;
     private readonly IProcesses _processes;
-    private readonly IHostApplicationLifetime _appLifetime;
 
     private int _executionCount;
     private JobStarter? _jobStarter;
@@ -97,11 +97,11 @@ public sealed class TimedHostedService : IHostedService, IDisposable
             AppAgentKey);
         _jobStarter.Run();
     }
+
     private void OnStopping()
     {
         _logger.LogInformation("Application is stopping, cancelling all processes...");
         _processes.CancelProcesses();
         _logger.LogInformation("All processes cancelled");
     }
-
 }
