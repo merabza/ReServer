@@ -37,7 +37,6 @@
     <Project Path="../ToolsManagement/ToolsManagement.CompressionManagement/ToolsManagement.CompressionManagement.csproj" />
     <Project Path="../ToolsManagement/ToolsManagement.DatabasesManagement/ToolsManagement.DatabasesManagement.csproj" />
     <Project Path="../ToolsManagement/ToolsManagement.FileManagersMain/ToolsManagement.FileManagersMain.csproj" />
-    <Project Path="../ToolsManagement/ToolsManagement.LibToolActions/ToolsManagement.LibToolActions.csproj" />
   </Folder>
   <Folder Name="/WebAgentContracts/">
     <Project Path="../WebAgentContracts/WebAgentContracts.WebAgentDatabasesApiContracts/WebAgentContracts.WebAgentDatabasesApiContracts.csproj" />
