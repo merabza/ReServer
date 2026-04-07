@@ -20,17 +20,19 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<TimedHostedService> _logger;
     private readonly IProcesses _processes;
+    private readonly IHostApplicationLifetime _appLifetime;
 
     private int _executionCount;
     private JobStarter? _jobStarter;
     private Timer? _timer;
 
     public TimedHostedService(ILogger<TimedHostedService> logger, IHttpClientFactory httpClientFactory,
-        IProcesses processes, IConfiguration configuration)
+        IProcesses processes, IConfiguration configuration, IHostApplicationLifetime appLifetime)
     {
         _logger = logger;
         _httpClientFactory = httpClientFactory;
         _processes = processes;
+        _appLifetime = appLifetime;
         IConfigurationSection projectSettingsSection = configuration.GetSection(nameof(AppSettings));
         _appSettings = projectSettingsSection.Get<AppSettings>();
     }
@@ -43,6 +45,8 @@ public sealed class TimedHostedService : IHostedService, IDisposable
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Timed Hosted Service running.");
+
+        _appLifetime.ApplicationStopping.Register(OnStopping);
 
         // ReSharper disable once DisposableConstructor
         _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
@@ -93,4 +97,11 @@ public sealed class TimedHostedService : IHostedService, IDisposable
             AppAgentKey);
         _jobStarter.Run();
     }
+    private void OnStopping()
+    {
+        _logger.LogInformation("Application is stopping, cancelling all processes...");
+        _processes.CancelProcesses();
+        _logger.LogInformation("All processes cancelled");
+    }
+
 }
